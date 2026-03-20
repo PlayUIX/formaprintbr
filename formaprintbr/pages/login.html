@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar — FormaPrint BR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body{background:var(--navy);min-height:100vh;display:flex;flex-direction:column}
+    .login-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:24px}
+    .login-card{background:var(--white);border-radius:20px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.35)}
+    .login-top{background:linear-gradient(135deg,var(--navy),var(--navy2));padding:28px 32px;text-align:center}
+    .login-top .logo{display:inline-block;margin-bottom:16px}
+    .login-top h2{color:var(--white);font-size:1.3rem;margin-bottom:4px}
+    .login-top p{color:rgba(255,255,255,.55);font-size:.82rem}
+    .login-body{padding:28px 32px}
+    .tab-row{display:flex;background:var(--off);border-radius:8px;padding:3px;margin-bottom:24px}
+    .tab-btn{flex:1;padding:8px;border-radius:6px;border:none;cursor:pointer;font-family:var(--body);font-size:.85rem;font-weight:700;color:var(--gray);transition:all .2s}
+    .tab-btn.active{background:var(--white);color:var(--navy);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+
+    .btn-google{
+      width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+      padding:12px;border-radius:10px;border:1.5px solid var(--light);
+      background:var(--white);color:var(--dark);font-weight:700;font-size:.92rem;
+      cursor:pointer;font-family:var(--body);transition:all .2s;margin-bottom:16px;
+    }
+    .btn-google:hover{border-color:var(--navy);background:var(--off)}
+    .btn-google svg{width:20px;height:20px;flex-shrink:0}
+
+    .divider{display:flex;align-items:center;gap:10px;font-size:.75rem;color:var(--gray);margin-bottom:16px}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--light)}
+
+    .btn-entrar{
+      width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
+      padding:12px;border-radius:10px;border:none;background:var(--navy);
+      color:var(--white);font-weight:700;font-size:.92rem;cursor:pointer;
+      font-family:var(--body);transition:background .2s;margin-top:4px;
+    }
+    .btn-entrar:hover{background:var(--navy2)}
+    .btn-entrar:disabled{opacity:.6;cursor:not-allowed}
+
+    .login-footer{text-align:center;padding:0 32px 24px;font-size:.8rem;color:var(--gray)}
+    .login-footer a{color:var(--navy);font-weight:700}
+
+    .err-msg{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:10px 14px;font-size:.8rem;color:#dc2626;margin-bottom:12px;display:none}
+    .err-msg.show{display:block}
+    .suc-msg{background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.2);border-radius:8px;padding:10px 14px;font-size:.8rem;color:#16a34a;margin-bottom:12px;display:none}
+    .suc-msg.show{display:block}
+
+    .form-group{margin-bottom:14px}
+    .form-group label{display:block;font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:4px}
+    .form-group input{width:100%;padding:10px 13px;border:1.5px solid var(--light);border-radius:8px;font-family:var(--body);font-size:.88rem;color:var(--dark);outline:none;transition:border-color .2s}
+    .form-group input:focus{border-color:var(--navy)}
+
+    .beneficios-conta{background:var(--off);border-radius:10px;padding:14px;margin-bottom:16px}
+    .beneficios-conta h4{font-size:.8rem;color:var(--navy);margin-bottom:10px;font-family:var(--body)}
+    .ben-item{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--dark);margin-bottom:7px}
+    .ben-item i{color:var(--gold2);font-size:.85rem}
+  </style>
+</head>
+<body>
+
+  <nav style="padding:14px 24px;display:flex;align-items:center;justify-content:space-between">
+    <a href="../index.html" class="logo"><span class="logo-forma">Forma</span><span class="logo-print">Print</span><span class="logo-br"> BR</span></a>
+    <a href="../index.html" style="color:rgba(255,255,255,.5);font-size:.82rem">Voltar ao inicio</a>
+  </nav>
+
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-top">
+        <h2>Bem-vindo ao FormaPrint BR</h2>
+        <p>Entre ou crie sua conta para salvar seu currículo e ganhar descontos</p>
+      </div>
+      <div class="login-body">
+
+        <!-- Abas -->
+        <div class="tab-row">
+          <button class="tab-btn active" id="tabEntrar" onclick="mudarTab('entrar')">Entrar</button>
+          <button class="tab-btn" id="tabCriar" onclick="mudarTab('criar')">Criar conta</button>
+        </div>
+
+        <!-- Mensagens -->
+        <div class="err-msg" id="errMsg"></div>
+        <div class="suc-msg" id="sucMsg"></div>
+
+        <!-- Google -->
+        <button class="btn-google" onclick="loginGoogle()">
+          <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Entrar com Google
+        </button>
+
+        <div class="divider">ou use email e senha</div>
+
+        <!-- Formulário de entrar -->
+        <div id="formEntrar">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="emailEntrar" placeholder="seu@email.com">
+          </div>
+          <div class="form-group">
+            <label>Senha</label>
+            <input type="password" id="senhaEntrar" placeholder="Sua senha">
+          </div>
+          <button class="btn-entrar" onclick="loginEmail()">
+            <i class="ph-bold ph-sign-in"></i> Entrar
+          </button>
+        </div>
+
+        <!-- Formulário de criar conta -->
+        <div id="formCriar" style="display:none">
+          <div class="beneficios-conta">
+            <h4>Vantagens de ter uma conta:</h4>
+            <div class="ben-item"><i class="ph-bold ph-check-circle"></i> Desconto de fidelidade R$1,50 na segunda compra</div>
+            <div class="ben-item"><i class="ph-bold ph-check-circle"></i> Link de indicação para ganhar currículos grátis</div>
+            <div class="ben-item"><i class="ph-bold ph-check-circle"></i> Histórico de currículos salvos</div>
+            <div class="ben-item"><i class="ph-bold ph-check-circle"></i> Dados preenchidos automaticamente</div>
+          </div>
+          <div class="form-group">
+            <label>Nome completo</label>
+            <input type="text" id="nomeCriar" placeholder="Maria da Silva">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="emailCriar" placeholder="seu@email.com">
+          </div>
+          <div class="form-group">
+            <label>Senha (mínimo 6 caracteres)</label>
+            <input type="password" id="senhaCriar" placeholder="Crie uma senha">
+          </div>
+          <button class="btn-entrar" onclick="criarConta()">
+            <i class="ph-bold ph-user-plus"></i> Criar conta grátis
+          </button>
+        </div>
+
+      </div>
+      <div class="login-footer">
+        Ao entrar você concorda com nossos <a href="#">Termos de Uso</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp }       from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+    import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    // ⚠️ Substitua com sua config: console.firebase.google.com
+    const cfg = {
+      apiKey:            "SUA_API_KEY",
+      authDomain:        "SEU_PROJETO.firebaseapp.com",
+      projectId:         "SEU_PROJETO",
+      storageBucket:     "SEU_PROJETO.appspot.com",
+      messagingSenderId: "SEU_SENDER_ID",
+      appId:             "SEU_APP_ID"
+    };
+
+    let app, auth, db;
+    try {
+      app  = initializeApp(cfg);
+      auth = getAuth(app);
+      db   = getFirestore(app);
+    } catch(e) { console.warn('Firebase pendente:', e.message); }
+
+    const provider = new GoogleAuthProvider();
+
+    // Detectar login ao carregar
+    if (auth) {
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          await salvarSessao(user);
+          const redir = new URLSearchParams(window.location.search).get('redirect') || '../index.html';
+          window.location.href = redir;
+        }
+      });
+    }
+
+    // ── Salvar sessão no localStorage ──
+    async function salvarSessao(user) {
+      localStorage.setItem('fpbr_email_usuario', user.email||'');
+      localStorage.setItem('fpbr_nome_usuario',  user.displayName||user.email.split('@')[0]);
+      localStorage.setItem('fpbr_uid',            user.uid);
+
+      if (db) {
+        try {
+          // Criar documento do usuário se não existe
+          const ref  = doc(db, 'users', user.uid);
+          const snap = await getDoc(ref);
+          if (!snap.exists()) {
+            await setDoc(ref, {
+              email:       user.email,
+              nome:        user.displayName||'',
+              totalCompras:0,
+              criadoEm:   new Date().toISOString()
+            });
+          } else {
+            if (snap.data().totalCompras > 0) {
+              localStorage.setItem('fpbr_recorrente', 'true');
+            }
+          }
+        } catch(e) {}
+      }
+    }
+
+    // ── Login com Google ──
+    window.loginGoogle = async () => {
+      if (!auth) { mostrarErro('Configure o Firebase primeiro.'); return; }
+      try {
+        await signInWithPopup(auth, provider);
+      } catch(e) {
+        if (e.code !== 'auth/popup-closed-by-user') mostrarErro('Erro ao entrar com Google: ' + e.message);
+      }
+    };
+
+    // ── Login com email ──
+    window.loginEmail = async () => {
+      const email = document.getElementById('emailEntrar').value.trim();
+      const senha = document.getElementById('senhaEntrar').value;
+      if (!email || !senha) { mostrarErro('Preencha email e senha.'); return; }
+      if (!auth) { entrarSemFirebase(email); return; }
+      try {
+        await signInWithEmailAndPassword(auth, email, senha);
+      } catch(e) {
+        mostrarErro(e.code === 'auth/user-not-found' ? 'Email não encontrado.' :
+                    e.code === 'auth/wrong-password'  ? 'Senha incorreta.' :
+                    'Erro ao entrar: ' + e.message);
+      }
+    };
+
+    // ── Criar conta ──
+    window.criarConta = async () => {
+      const nome  = document.getElementById('nomeCriar').value.trim();
+      const email = document.getElementById('emailCriar').value.trim();
+      const senha = document.getElementById('senhaCriar').value;
+      if (!nome)           { mostrarErro('Preencha seu nome.'); return; }
+      if (!email)          { mostrarErro('Preencha seu email.'); return; }
+      if (senha.length < 6){ mostrarErro('Senha precisa ter mínimo 6 caracteres.'); return; }
+      if (!auth) { entrarSemFirebase(email, nome); return; }
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email, senha);
+        await updateProfile(cred.user, { displayName: nome });
+      } catch(e) {
+        mostrarErro(e.code === 'auth/email-already-in-use' ? 'Este email já tem uma conta. Use a aba Entrar.' :
+                    'Erro ao criar conta: ' + e.message);
+      }
+    };
+
+    // ── Fallback sem Firebase ──
+    function entrarSemFirebase(email, nome='') {
+      localStorage.setItem('fpbr_email_usuario', email);
+      localStorage.setItem('fpbr_nome_usuario',  nome || email.split('@')[0]);
+      mostrarSucesso('Conta salva localmente!');
+      setTimeout(()=>{ window.location.href = '../index.html'; }, 1200);
+    }
+  </script>
+
+  <script>
+    function mudarTab(t) {
+      const entrar = t === 'entrar';
+      document.getElementById('tabEntrar').classList.toggle('active', entrar);
+      document.getElementById('tabCriar').classList.toggle('active', !entrar);
+      document.getElementById('formEntrar').style.display = entrar ? 'block' : 'none';
+      document.getElementById('formCriar').style.display  = entrar ? 'none'  : 'block';
+      limparMsgs();
+    }
+    function mostrarErro(msg) {
+      const e = document.getElementById('errMsg');
+      e.textContent = msg; e.classList.add('show');
+      document.getElementById('sucMsg').classList.remove('show');
+    }
+    function mostrarSucesso(msg) {
+      const s = document.getElementById('sucMsg');
+      s.textContent = msg; s.classList.add('show');
+      document.getElementById('errMsg').classList.remove('show');
+    }
+    function limparMsgs() {
+      document.getElementById('errMsg').classList.remove('show');
+      document.getElementById('sucMsg').classList.remove('show');
+    }
+    // Enter para submeter
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      const tab = document.getElementById('tabEntrar').classList.contains('active');
+      if (tab) window.loginEmail(); else window.criarConta();
+    });
+  </script>
+</body>
+</html>
